@@ -7,7 +7,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { io } from "socket.io-client";
 import { v4 as uuidv4 } from "uuid";
 import ChatInput from './ChatInput';
-
+import robo from '../assets/hi-robot.gif';
 function Chats() {
   const socket = useRef();
   const [currentUser, setCurrentUser] = useState(null);
@@ -40,7 +40,7 @@ function Chats() {
     if (selectedUser) {
       fetchChats();
     }
-  }, [selectedUser,arrivalMessage]);
+  }, [selectedUser, arrivalMessage]);
 
   useEffect(() => {
     if (currentUser) {
@@ -153,23 +153,32 @@ function Chats() {
         </div>
         <div className='w-[65%] h-[100%] flex flex-col'>
           <div className='h-[12%] w-[100%] bg-gray-400 flex flex-row items-center justify-between'>
-            <div className='mx-2'>{selectedUser ? selectedUser.userName : 'Loading...'}</div>
+            <div className='mx-2'>{selectedUser ? selectedUser.userName : ''}</div>
           </div>
           <div className='h-[78%] w-[100%] bg-black flex flex-col overflow-y-auto'>
             <div ref={scrollRef} key={uuidv4()}>
-              {chats.map((chat, index) => (
-                <div
-                  className={`message ${chat.fromSelf ? 'sended' : 'received'} w-40 m-2 p-2 text-white flex flex-col ${chat.fromSelf ? 'ml-auto' : ''}`}
-                  key={index}
-                >
-                  <div>
-                    <p>{chat.message}</p>
-                  </div>
+              {!selectedUser ? (
+                <div className="flex flex-col justify-center items-center">
+                  <img src={robo} alt="Robot" width="200" height="200" />
                 </div>
-              ))}
+              ) : (
+                chats.map((chat, index) => (
+                  <div
+                    className={`message ${chat.fromSelf ? 'sended' : 'received'} w-40 m-2 p-2 text-white flex flex-col ${chat.fromSelf ? 'ml-auto' : ''}`}
+                    key={index}
+                  >
+                    <div>
+                      <p>{chat.message}</p>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
-          <ChatInput handleSendMsg={handleSendMsg}></ChatInput>
+          {
+            !selectedUser?(<div></div>):(<ChatInput handleSendMsg={handleSendMsg}></ChatInput>)
+          }
+          
         </div>
       </div>
     </div>
