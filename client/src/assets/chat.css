@@ -1,0 +1,16 @@
+body{
+    background-image: url("./bg.jpg");
+    background-size: cover;
+}
+.contact{
+    overflow-y: auto;
+    cursor: pointer;
+}
+
+.sended {
+    background-color: rgba(206, 206, 206, 0.59);
+  }
+  
+.received {
+    background-color: rgba(6, 255, 255, 0.482);
+}
